@@ -7,7 +7,7 @@
 ;; I pledge on my honor that I have not given or received any
 ;; unauthorized assistance on this assignment.
 ;;
-;; Name: zz
+;; Name: Victoria Sauder
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Expr -> Asm
@@ -45,9 +45,9 @@
     [`(abs ,e0)
      (let ([c0 (compile-e e0)])
        `(,@c0
-         (mov rbx\, rax)
+         (mov rbx rax)
          (neg rax)
-         (cmovl rax\, rbx)))]
+         (cmovl rax rbx)))]
     [`(- ,e0)
      (let ([c0 (compile-e e0)])
        `(,@c0
@@ -75,5 +75,3 @@
                           ,l1))]
     [`(else ,x) (let ([c0 (compile-e x)])
                   `(,@c0))]))
-
-'((mov rax 0) (cmp rax 0) (jne cond69068) (mov rax 2) (jmp cond69069) cond69068 ((mov rax 1)) cond69069)
