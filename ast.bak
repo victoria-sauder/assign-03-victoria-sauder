@@ -4,6 +4,4 @@
 ;; | `(add1 ,Expr)
 ;; | `(sub1 ,Expr)
 ;; | `(if (zero? ,Expr) ,Expr ,Expr)
-;; | `(abs ,Expr)
-;; | `(- ,Expr)
-;; | `(cond ((zero? ,Expr) ,Expr)* ,Expr ,Expr)
+

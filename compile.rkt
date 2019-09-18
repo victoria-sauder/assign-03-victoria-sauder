@@ -7,7 +7,7 @@
 ;; I pledge on my honor that I have not given or received any
 ;; unauthorized assistance on this assignment.
 ;;
-;; Name: TODO
+;; Name: zz
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Expr -> Asm
@@ -42,6 +42,38 @@
          ,l0
          ,@c2
          ,l1))]
+    [`(abs ,e0)
+     (let ([c0 (compile-e e0)])
+       `(,@c0
+         (mov rbx\, rax)
+         (neg rax)
+         (cmovl rax\, rbx)))]
+    [`(- ,e0)
+     (let ([c0 (compile-e e0)])
+       `(,@c0
+         (neg rax)))]
+    [`(cond (else ,e0))
+     (let ([c0 (compile-e e0)])
+       `(,@c0))]
+    [(cons 'cond t) (compile-cond t)]
+    ))
 
-    ;; TODO
-    #;...))
+(define (compile-cond t)
+  (match (first t)
+    [`((zero? ,x) ,y) (let ([c0 (compile-e x)]
+                            [c1 (compile-e y)]
+                            [l0 (gensym "cond")]
+                            [l1 (gensym "cond")]
+                            [t0 (compile-cond (cdr t))])
+                        `(,@c0
+                          (cmp rax 0)
+                          (jne ,l0)
+                          ,@c1
+                          (jmp ,l1)
+                          ,l0
+                          ,t0
+                          ,l1))]
+    [`(else ,x) (let ([c0 (compile-e x)])
+                  `(,@c0))]))
+
+'((mov rax 0) (cmp rax 0) (jne cond69068) (mov rax 2) (jmp cond69069) cond69068 ((mov rax 1)) cond69069)

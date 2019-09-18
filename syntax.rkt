@@ -12,5 +12,22 @@
      (and (expr? x)
           (expr? y)
           (expr? z))]
-    ;; TODO
+    [`(abs ,x) (expr? x)]
+    [(cons 'cond t) (cond-expr? (cdr t))]
+    [`(- ,x) (expr? x)]
     [_ #f]))
+
+(define (cond-expr? x)
+  (if (= (length x) 1)
+      (match (first x)
+        [`(else ,y) (expr? y)]
+        [_ #f])
+      (match (first x)
+        [`((zero? ,y) ,z) (and (expr? y) (expr? z)
+                               ;(cond-expr? (cdr x))
+                               )]
+        [_ #f])
+      )
+)
+    
+
